@@ -1,0 +1,8 @@
+{
+  "config.sleepingoverhaul.sleepAction": "Действие, которое необходимо выполнить, пока все игроки спят",
+  
+  "gui.sleepingoverhaul.sleepButton": "Спать",
+  
+  "death.attack.sleepingoverhaul2.timelapseKill": "%1$s умер во сне",
+  "death.attack.sleepingoverhaul2.timelapseKill.player": "%1$s был убит %2$s во сне"
+}
