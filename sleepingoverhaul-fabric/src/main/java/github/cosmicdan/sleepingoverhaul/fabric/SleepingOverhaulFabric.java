@@ -10,7 +10,7 @@ public class SleepingOverhaulFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        instance = new SleepingOverhaul();
+        instance = new SleepingOverhaul(new ModPlatformFabric());
 
         /**
          * Only used for performance counting stats right now

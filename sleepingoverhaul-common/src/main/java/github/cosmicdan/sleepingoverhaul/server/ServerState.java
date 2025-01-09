@@ -1,6 +1,6 @@
 package github.cosmicdan.sleepingoverhaul.server;
 
-import github.cosmicdan.sleepingoverhaul.ModPlatform;
+import github.cosmicdan.sleepingoverhaul.IModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
 import dev.architectury.networking.NetworkManager;
@@ -96,7 +96,7 @@ public class ServerState {
     private void tryReallySleepingRecv(FriendlyByteBuf buf, NetworkManager.PacketContext context) {
         final Player player = context.getPlayer();
         boolean reallySleeping = buf.readBoolean();
-        if (reallySleeping && ModPlatform.canPlayerSleepNow(player)) {
+        if (reallySleeping && SleepingOverhaul.MODPLATFORM.canPlayerSleepNow(player)) {
             //noinspection CastToIncompatibleInterface
             ((PlayerMixinProxy) player).so2_$setReallySleeping(reallySleeping);
         } else {

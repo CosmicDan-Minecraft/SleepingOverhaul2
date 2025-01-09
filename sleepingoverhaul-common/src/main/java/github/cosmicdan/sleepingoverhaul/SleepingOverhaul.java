@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 public class SleepingOverhaul {
     public static final String MOD_ID = "sleepingoverhaul";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static IModPlatform MODPLATFORM;
 
     public static ServerState serverState = null;
     public static IClientState clientState = null;
@@ -35,11 +36,12 @@ public class SleepingOverhaul {
 
     //public static void init() {
     @SuppressWarnings("AssignmentToStaticFieldFromInstanceMethod")
-    public SleepingOverhaul() {
+    public SleepingOverhaul(final IModPlatform modPlatform) {
+        MODPLATFORM = modPlatform;
         // Register server/world config
         final Pair<ServerConfig, ForgeConfigSpec> specPairServer = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
         serverConfig = specPairServer.getLeft();
-        ModPlatform.registerConfig(Type.SERVER, specPairServer.getRight());
+        MODPLATFORM.registerConfig(Type.SERVER, specPairServer.getRight());
 
         serverState = new ServerState();
         if (Platform.getEnvironment() == Env.CLIENT) {
@@ -47,7 +49,7 @@ public class SleepingOverhaul {
             // also register client config
             final Pair<ClientConfig, ForgeConfigSpec> specPairClient = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
             clientConfig = specPairClient.getLeft();
-            ModPlatform.registerConfig(Type.CLIENT, specPairClient.getRight());
+            MODPLATFORM.registerConfig(Type.CLIENT, specPairClient.getRight());
         } else
             clientState = new ClientStateDummy();
 

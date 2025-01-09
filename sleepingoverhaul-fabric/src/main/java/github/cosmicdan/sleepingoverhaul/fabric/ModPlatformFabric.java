@@ -1,5 +1,6 @@
 package github.cosmicdan.sleepingoverhaul.fabric;
 
+import github.cosmicdan.sleepingoverhaul.IModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
@@ -15,12 +16,14 @@ import java.util.Optional;
 /**
  * @author Daniel 'CosmicDan' Connolly
  */
-public class ModPlatformImpl {
-    public static void registerConfig(final ModConfig.Type type, final IConfigSpec<ForgeConfigSpec> spec) {
+public class ModPlatformFabric implements IModPlatform {
+    @Override
+    public void registerConfig(final ModConfig.Type type, final IConfigSpec<ForgeConfigSpec> spec) {
         ForgeConfigRegistry.INSTANCE.register(SleepingOverhaul.MOD_ID, type, spec);
     }
 
-    public static boolean canPlayerSleepNow(final Player player) {
+    @Override
+    public boolean canPlayerSleepNow(final Player player) {
         // TODO: Bed Groups
         boolean isDay = player.level().isDay();
         final Optional<BlockPos> bedPosMaybe = player.getSleepingPos();

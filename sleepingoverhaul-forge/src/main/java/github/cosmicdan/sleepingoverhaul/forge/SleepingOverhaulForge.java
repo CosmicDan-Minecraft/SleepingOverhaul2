@@ -15,7 +15,7 @@ public class SleepingOverhaulForge {
     public SleepingOverhaulForge() {
         // Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(SleepingOverhaul.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        INSTANCE = new SleepingOverhaul();
+        INSTANCE = new SleepingOverhaul(new ModPlatformForge());
 
         // register Forge-specific events
         MinecraftForge.EVENT_BUS.register(this);
