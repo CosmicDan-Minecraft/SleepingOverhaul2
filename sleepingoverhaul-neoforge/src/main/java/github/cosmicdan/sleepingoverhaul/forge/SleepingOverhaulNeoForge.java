@@ -14,6 +14,6 @@ public class SleepingOverhaulNeoForge {
 
     public SleepingOverhaulNeoForge(ModContainer container, IEventBus modBus) {
         CONTAINER = container;
-        INSTANCE = new SleepingOverhaul();
+        INSTANCE = new SleepingOverhaul(new ModPlatformForge());
     }
 }

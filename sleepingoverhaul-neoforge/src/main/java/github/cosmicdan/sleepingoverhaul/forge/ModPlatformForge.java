@@ -1,20 +1,20 @@
 package github.cosmicdan.sleepingoverhaul.forge;
 
-import net.minecraft.world.entity.player.Player;
+import github.cosmicdan.sleepingoverhaul.IModPlatform;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.event.EventHooks;
 
 /**
  * @author Daniel 'CosmicDan' Connolly
  */
-public class ModPlatformImpl {
-
-    public static void registerConfigServer(ModConfigSpec spec) {
+public class ModPlatformForge implements IModPlatform {
+    @Override
+    public void registerConfigServer(ModConfigSpec spec) {
         SleepingOverhaulNeoForge.CONTAINER.registerConfig(ModConfig.Type.SERVER, spec);
     }
 
-    public static void registerConfigClient(ModConfigSpec spec) {
+    @Override
+    public void registerConfigClient(ModConfigSpec spec) {
         SleepingOverhaulNeoForge.CONTAINER.registerConfig(ModConfig.Type.CLIENT, spec);
     }
 

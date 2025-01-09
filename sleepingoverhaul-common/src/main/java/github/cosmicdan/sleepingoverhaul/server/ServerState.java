@@ -1,6 +1,5 @@
 package github.cosmicdan.sleepingoverhaul.server;
 
-import github.cosmicdan.sleepingoverhaul.ModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
 import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingPacket;

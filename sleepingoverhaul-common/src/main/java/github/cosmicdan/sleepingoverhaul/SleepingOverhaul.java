@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 public class SleepingOverhaul {
     public static final String MOD_ID = "sleepingoverhaul";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static IModPlatform MODPLATFORM;
 
     public static ServerState serverState = null;
     public static IClientState clientState = null;
@@ -35,17 +36,18 @@ public class SleepingOverhaul {
 
     //public static void init() {
     @SuppressWarnings("AssignmentToStaticFieldFromInstanceMethod")
-    public SleepingOverhaul() {
+    public SleepingOverhaul(final IModPlatform modPlatform) {
+        MODPLATFORM = modPlatform;
         // Register server/world config and state
         final Pair<ServerConfig, ModConfigSpec> specPairServer = new ModConfigSpec.Builder().configure(ServerConfig::new);
         serverConfig = specPairServer.getLeft();
-        ModPlatform.registerConfigServer(specPairServer.getRight());
+        MODPLATFORM.registerConfigServer(specPairServer.getRight());
         serverState = new ServerState();
         if (Platform.getEnvironment() == Env.CLIENT) {
             // register client config and state
             final Pair<ClientConfig, ModConfigSpec> specPairClient = new ModConfigSpec.Builder().configure(ClientConfig::new);
             clientConfig = specPairClient.getLeft();
-            ModPlatform.registerConfigClient(specPairClient.getRight());
+            MODPLATFORM.registerConfigClient(specPairClient.getRight());
             clientState = new ClientState();
         } else // dummy client state for dedicated server
             clientState = new ClientStateDummy();

@@ -8,6 +8,6 @@ public class SleepingOverhaulFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        INSTANCE = new SleepingOverhaul();
+        INSTANCE = new SleepingOverhaul(new ModPlatformFabric());
     }
 }
