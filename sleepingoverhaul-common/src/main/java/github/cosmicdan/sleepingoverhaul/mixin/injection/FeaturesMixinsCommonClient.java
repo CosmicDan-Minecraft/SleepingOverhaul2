@@ -109,14 +109,13 @@ abstract class FeaturesMixinsCommonClientInBedChatScreen extends ChatScreen {
                     return true;
                 } else if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
                     // ENTER was pressed, handle chat
-                    if (this.handleChatInput(this.input.getValue(), true)) {
-                        // handle bedRestOnEnter config, because the hook from BedRestMixinsCommonClientInBedChatScreen is effectively replaced with this mixin
-                        if (input.getValue().isEmpty() && SleepingOverhaul.clientConfig.bedRestOnEnter.get())
-                            SleepingOverhaul.clientState.onClickSleep();
-                        this.minecraft.setScreen(null);
-                        this.input.setValue("");
-                        this.minecraft.gui.getChat().resetChatScroll();
-                    }
+                    this.handleChatInput(this.input.getValue(), true);
+                    // handle bedRestOnEnter config, because the hook from BedRestMixinsCommonClientInBedChatScreen is effectively replaced with this mixin
+                    if (input.getValue().isEmpty() && SleepingOverhaul.clientConfig.bedRestOnEnter.get())
+                        SleepingOverhaul.clientState.onClickSleep();
+                    this.minecraft.setScreen(null);
+                    this.input.setValue("");
+                    this.minecraft.gui.getChat().resetChatScroll();
                     return true;
                 }
             } else {

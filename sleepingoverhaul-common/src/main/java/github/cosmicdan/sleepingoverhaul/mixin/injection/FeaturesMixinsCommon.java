@@ -23,7 +23,7 @@ abstract class FeaturesMixinsCommonBedBlock {
      * For feature to allow rest/sleep in any dimension
      */
     @WrapOperation(
-            method = "use",
+            method = "useWithoutItem",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/BedBlock;canSetSpawn(Lnet/minecraft/world/level/Level;)Z")
     )
     private boolean onUseCanSetSpawn(Level level, Operation<Boolean> original) {
@@ -34,13 +34,16 @@ abstract class FeaturesMixinsCommonBedBlock {
     }
 }
 
-@Mixin(Player.class)
-abstract class FeaturesMixinsCommonPlayer {
+@Mixin(ServerPlayer.class)
+abstract class FeaturesMixinsCommonServerPlayer {
+    @Shadow
+    public abstract ServerLevel serverLevel();
+
     /**
      * For feature to allow setting spawn in any dimension
      */
     @WrapOperation(
-            method = "findRespawnPositionAndUseSpawnBlock",
+            method = "findRespawnAndUseSpawnBlock",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/BedBlock;canSetSpawn(Lnet/minecraft/world/level/Level;)Z")
     )
     private static boolean onFindRespawnCanSetSpawn(Level level, Operation<Boolean> original) {
@@ -49,13 +52,6 @@ abstract class FeaturesMixinsCommonPlayer {
             canSetSpawn =  true;
         return canSetSpawn;
     }
-}
-
-
-@Mixin(ServerPlayer.class)
-abstract class FeaturesMixinsCommonServerPlayer {
-    @Shadow
-    public abstract ServerLevel serverLevel();
 
     /**
      * For feature to allow rest/sleep in any dimension

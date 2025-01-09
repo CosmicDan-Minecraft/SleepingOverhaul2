@@ -10,10 +10,11 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.Input;
+import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -29,9 +30,7 @@ public class TimelapseMixinsCommonClient {}
 @Mixin(Camera.class)
 abstract class TimelapseMixinsCommonClientCamera {
     @Shadow
-    protected abstract void move(double d, double e, double f);
-
-    @Shadow protected abstract double getMaxZoom(double d); // reminder: used for chase cam collision
+    protected abstract void move(float d, float e, float f);
 
     @Shadow protected abstract void setRotation(float f, float g);
 
@@ -71,7 +70,7 @@ abstract class TimelapseMixinsCommonClientCamera {
 
                     if (timelapseCameraType == ClientConfig.TimelapseCameraType.SurfaceOrbit) {
                         // SurfaceOrbit: Move camera back a bit
-                        move(-6.0, 1.0, 0.0);
+                        move(-6.0f, 1.0f, 0.0f);
                     }
                     if ((timelapseCameraType == ClientConfig.TimelapseCameraType.SurfaceOrbit) || (timelapseCameraType == ClientConfig.TimelapseCameraType.SurfaceRotation)) {
                         // SurfaceOrbit *or* SurfaceRotation: move camera to surface block + 3 (unless lower than previous surface height in the current cine)
@@ -97,7 +96,7 @@ abstract class TimelapseMixinsCommonClientGui {
      * For cinematic camera during Timelapse, use user-configured screen dim value
      */
     @WrapOperation(
-            method = "render",
+            method = "renderSleepOverlay",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;getSleepTimer()I")
     )
     private int onRenderGetSleepTimer(LocalPlayer instance, Operation<Integer> original) {
@@ -113,26 +112,24 @@ abstract class TimelapseMixinsCommonClientGui {
 @Mixin(LocalPlayer.class)
 abstract class TimelapseMixinsCommonClientLocalPlayer {
 
+    @Shadow
+    public ClientInput input;
+
     /**
      * For option to prevent non-player movement during timelapse
      */
     @WrapOperation(
             method = "aiStep",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick()V")
     )
-    private void onTickInput(Input input, boolean isSneaking, float sneakingSpeedMultiplier, Operation<Void> original) {
+    private void onTickInput(ClientInput instance, Operation<Void> original) {
         if (SleepingOverhaul.serverState.isTimelapseActive() && SleepingOverhaul.serverConfig.noMovementDuringTimelapse.get()) {
             // apart from not calling original, also set all input to none for maximum compatibility
             input.leftImpulse = 0.0f;
             input.forwardImpulse = 0.0f;
-            input.up = false;
-            input.down = false;
-            input.left = false;
-            input.right = false;
-            input.jumping = false;
-            input.shiftKeyDown = false;
+            input.keyPresses = Input.EMPTY;
         } else {
-            original.call(input, isSneaking, sneakingSpeedMultiplier);
+            original.call(instance);
         }
     }
 }

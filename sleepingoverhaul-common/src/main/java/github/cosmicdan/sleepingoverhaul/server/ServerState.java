@@ -3,20 +3,20 @@ package github.cosmicdan.sleepingoverhaul.server;
 import github.cosmicdan.sleepingoverhaul.ModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
+import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingPacket;
+import github.cosmicdan.sleepingoverhaul.networking.TimelapseChangePacket;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.networking.NetworkManager.Side;
-import io.netty.buffer.Unpooled;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class ServerState {
     private long timelapseTickCount = 0;
 
     public ServerState() {
-        NetworkManager.registerReceiver(Side.C2S, SleepingOverhaul.PACKET_TRY_REALLY_SLEEPING, this::tryReallySleepingRecv);
+        NetworkManager.registerReceiver(Side.C2S, ReallySleepingPacket.TYPE, ReallySleepingPacket.STREAM_CODEC, this::tryReallySleepingRecv);
     }
 
     public boolean isTimelapseActive() {
@@ -63,7 +63,7 @@ public class ServerState {
                 final Optional<ServerPlayer> firstPlayerMaybe = server.getPlayerList().getPlayers().stream().findFirst();
                 if (firstPlayerMaybe.isPresent()) {
                     final BlockPos firstPlayerPosAbove = firstPlayerMaybe.get().getOnPos().above(2);
-                    EntityType.ZOMBIE.spawn(server.overworld(), firstPlayerPosAbove, MobSpawnType.SPAWNER);
+                    EntityType.ZOMBIE.spawn(server.overworld(), firstPlayerPosAbove, EntitySpawnReason.SPAWNER);
                 }
             }
         }
@@ -93,25 +93,19 @@ public class ServerState {
         }
     }
 
-    private void tryReallySleepingRecv(FriendlyByteBuf buf, NetworkManager.PacketContext context) {
+    private void tryReallySleepingRecv(ReallySleepingPacket packet, NetworkManager.PacketContext context) {
         final Player player = context.getPlayer();
-        boolean reallySleeping = buf.readBoolean();
-        if (reallySleeping && ModPlatform.canPlayerSleepNow(player)) {
-            //noinspection CastToIncompatibleInterface
-            ((PlayerMixinProxy) player).so2_$setReallySleeping(reallySleeping);
-        } else {
-            reallySleeping = false;
-        }
+        boolean reallySleeping = packet.reallySleeping();
         if (player instanceof ServerPlayer serverPlayer) { // should always be true
-            if (!reallySleeping) {
-                final FriendlyByteBuf bufPong = new FriendlyByteBuf(Unpooled.buffer());
-                bufPong.writeBoolean(false);
-                NetworkManager.sendToPlayer(serverPlayer, SleepingOverhaul.PACKET_TRY_REALLY_SLEEPING, bufPong);
+            //if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get() && ModPlatform.canPlayerStartSleepNow(player)) {
+            // TODO: canPlayerStartSleepNow. NeoForge has expanded (better) events, complicates things :\
+            if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get()) {
+                //noinspection CastToIncompatibleInterface
+                ((PlayerMixinProxy) player).so2_$setReallySleeping(true);
+                // Update sleeping list now because we made it check for reallySleeping in BedRestMixinsCommonSleepStatus, so need to fire it again
+                serverPlayer.serverLevel().updateSleepingPlayerList();
             } else {
-                if (SleepingOverhaul.serverConfig.bedRestEnabled.get()) {
-                    // Update sleeping list because we've made it check for reallySleeping in BedRestMixinsCommonSleepStatus
-                    serverPlayer.serverLevel().updateSleepingPlayerList();
-                }
+                NetworkManager.sendToServer(new ReallySleepingPacket(false));
             }
         } else {
             SleepingOverhaul.LOGGER.warn("The player instance received from packet is not ServerPlayer, eh? Forge/Fabric changed stuff? Bed rest will be bugged...!");
@@ -119,9 +113,7 @@ public class ServerState {
     }
 
     private void notifyPlayersTimelapseChange(final Iterable<ServerPlayer> players, final long timelapseEnd) {
-        final FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeLong(timelapseEnd);
-        NetworkManager.sendToPlayers(players, SleepingOverhaul.PACKET_TIMELAPSE_CHANGE, buf);
+        NetworkManager.sendToPlayers(players, new TimelapseChangePacket(timelapseEnd));
     }
 
     public void stopTimelapseNow(ServerLevel serverLevel) {
@@ -135,7 +127,7 @@ public class ServerState {
     public float getPlayerHurtAdj(ServerPlayer player, DamageSource source, float amount) {
         float amountAdjusted = amount;
         if (isTimelapseActive()) {
-            if (!source.isIndirect() && player.isSleeping()) {
+            if (source.isDirect() && player.isSleeping()) {
                 // timelapse active and player was attacked by direct damage
                 switch (SleepingOverhaul.serverConfig.timelapseSleepersDirectDamageAction.get()) {
                     case NoChange -> {}

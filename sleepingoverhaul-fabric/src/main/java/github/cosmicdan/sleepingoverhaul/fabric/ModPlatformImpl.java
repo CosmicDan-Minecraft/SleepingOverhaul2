@@ -1,14 +1,14 @@
 package github.cosmicdan.sleepingoverhaul.fabric;
 
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
+import github.cosmicdan.sleepingoverhaul.ModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.config.IConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Optional;
 
@@ -16,10 +16,15 @@ import java.util.Optional;
  * @author Daniel 'CosmicDan' Connolly
  */
 public class ModPlatformImpl {
-    public static void registerConfig(final ModConfig.Type type, final IConfigSpec<ForgeConfigSpec> spec) {
-        ForgeConfigRegistry.INSTANCE.register(SleepingOverhaul.MOD_ID, type, spec);
+    public static void registerConfigServer(ModConfigSpec spec) {
+        NeoForgeConfigRegistry.INSTANCE.register(SleepingOverhaul.MOD_ID, ModConfig.Type.SERVER, spec);
     }
 
+    public static void registerConfigClient(ModConfigSpec spec) {
+        NeoForgeConfigRegistry.INSTANCE.register(SleepingOverhaul.MOD_ID, ModConfig.Type.CLIENT, spec);
+    }
+
+    /*
     public static boolean canPlayerSleepNow(final Player player) {
         // TODO: Bed Groups
         boolean isDay = player.level().isDay();
@@ -34,4 +39,5 @@ public class ModPlatformImpl {
         }
         return !isDay;
     }
+     */
 }

@@ -1,5 +1,6 @@
 package github.cosmicdan.sleepingoverhaul;
 
+import dev.architectury.event.events.common.TickEvent;
 import github.cosmicdan.sleepingoverhaul.client.ClientConfig;
 import github.cosmicdan.sleepingoverhaul.client.ClientState;
 import github.cosmicdan.sleepingoverhaul.server.ClientStateDummy;
@@ -14,8 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.config.ModConfig.Type;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
@@ -30,32 +30,32 @@ public class SleepingOverhaul {
     public static ServerConfig serverConfig = null;
     public static ClientConfig clientConfig = null;
 
-    public static final ResourceLocation PACKET_TRY_REALLY_SLEEPING = new ResourceLocation(SleepingOverhaul.MOD_ID, "is_really_sleeping");
-    public static final ResourceLocation PACKET_TIMELAPSE_CHANGE = new ResourceLocation(SleepingOverhaul.MOD_ID, "timelapse_change");
+    public static final ResourceLocation PACKET_TRY_REALLY_SLEEPING = ResourceLocation.fromNamespaceAndPath(SleepingOverhaul.MOD_ID, "is_really_sleeping");
+    public static final ResourceLocation PACKET_TIMELAPSE_CHANGE = ResourceLocation.fromNamespaceAndPath(SleepingOverhaul.MOD_ID, "timelapse_change");
 
     //public static void init() {
     @SuppressWarnings("AssignmentToStaticFieldFromInstanceMethod")
     public SleepingOverhaul() {
-        // Register server/world config
-        final Pair<ServerConfig, ForgeConfigSpec> specPairServer = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+        // Register server/world config and state
+        final Pair<ServerConfig, ModConfigSpec> specPairServer = new ModConfigSpec.Builder().configure(ServerConfig::new);
         serverConfig = specPairServer.getLeft();
-        ModPlatform.registerConfig(Type.SERVER, specPairServer.getRight());
-
+        ModPlatform.registerConfigServer(specPairServer.getRight());
         serverState = new ServerState();
         if (Platform.getEnvironment() == Env.CLIENT) {
-            clientState = new ClientState();
-            // also register client config
-            final Pair<ClientConfig, ForgeConfigSpec> specPairClient = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+            // register client config and state
+            final Pair<ClientConfig, ModConfigSpec> specPairClient = new ModConfigSpec.Builder().configure(ClientConfig::new);
             clientConfig = specPairClient.getLeft();
-            ModPlatform.registerConfig(Type.CLIENT, specPairClient.getRight());
-        } else
+            ModPlatform.registerConfigClient(specPairClient.getRight());
+            clientState = new ClientState();
+        } else // dummy client state for dedicated server
             clientState = new ClientStateDummy();
 
 
-        EntityEvent.LIVING_HURT.register(SleepingOverhaul::onLivingHurt);
+        EntityEvent.LIVING_HURT.register(this::onLivingHurt);
+        TickEvent.SERVER_POST.register(serverState::onServerTickPost);
     }
 
-    private static EventResult onLivingHurt(LivingEntity entity, DamageSource source, float amount) {
+    private EventResult onLivingHurt(LivingEntity entity, DamageSource source, float amount) {
         EventResult eventResult = EventResult.pass(); // default = pass it on
         if (serverState.isTimelapseActive()) {
             if (entity instanceof ServerPlayer player) {

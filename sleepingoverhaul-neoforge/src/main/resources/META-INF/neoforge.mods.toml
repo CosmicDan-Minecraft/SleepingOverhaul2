@@ -1,12 +1,12 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "[4,)"
 #issueTrackerURL = ""
 license = "LGPL3"
 
 [[mods]]
 modId = "sleepingoverhaul"
 version = "${version}"
-displayName = "Sleeping Overhaul"
+displayName = "Sleeping Overhaul 2"
 authors = "CosmicDan"
 description = '''
 Replaces skip-to-day on sleep with a beautiful panoramic timelapse, and more!
@@ -15,23 +15,25 @@ logoFile = "logo.png"
 displayURL = "https://github.com/CosmicDan-Minecraft/SleepingOverhaul2/"
 
 [[dependencies.sleepingoverhaul]]
-modId = "forge"
-mandatory = true
-versionRange = "[47,)"
+modId = "neoforge"
+type = "required"
+versionRange = "[21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepingoverhaul]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.1,)"
+type = "required"
+versionRange = "[1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepingoverhaul]]
 modId = "architectury"
-mandatory = true
-versionRange = "[9.2.14,)"
-# An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-ordering = "NONE"
+type = "required"
+versionRange = "[15.0.1,)"
+ordering = "AFTER"
 side = "BOTH"
+
+[[mixins]]
+config = "sleepingoverhaul-common.mixins.json,sleepingoverhaul-neoforge.mixins.json"

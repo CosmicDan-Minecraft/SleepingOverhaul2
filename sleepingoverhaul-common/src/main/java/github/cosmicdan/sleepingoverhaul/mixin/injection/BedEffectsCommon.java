@@ -1,56 +1,65 @@
 package github.cosmicdan.sleepingoverhaul.mixin.injection;
 
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.world.effect.MobEffect;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.HungerMobEffect;
+import net.minecraft.world.effect.PoisonMobEffect;
+import net.minecraft.world.effect.WitherMobEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 
 public class BedEffectsCommon {}
 
 /**
- * Hooks for preventing Poison/Wither/Hunger while in bed if enabled in config
+ * For bedEffectNoPoison
  */
-@Mixin(MobEffect.class)
-abstract class BedEffectsCommonMobEffect {
-
-    @ModifyExpressionValue(
-            method = "applyEffectTick",
-            at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/world/effect/MobEffects;POISON:Lnet/minecraft/world/effect/MobEffect;")
+@Mixin(PoisonMobEffect.class)
+abstract class BedEffectsCommonPoisonMobEffect {
+    @WrapMethod(
+            method = "applyEffectTick"
     )
-    private MobEffect onIsEffectPoison(MobEffect original, @Local(argsOnly = true) LivingEntity livingEntity) {
+    private boolean onApplyEffectTick(ServerLevel level, LivingEntity entity, int amplifier, Operation<Boolean> original) {
         if (SleepingOverhaul.serverConfig.bedEffectNoPoison.get()) {
-            if (livingEntity instanceof Player && livingEntity.isSleeping())
-                return null;
+            if (entity instanceof Player && entity.isSleeping())
+                return true; // do nothing but return success
         }
-        return original;
+        return original.call(level, entity, amplifier);
     }
+}
 
-    @ModifyExpressionValue(
-            method = "applyEffectTick",
-            at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/world/effect/MobEffects;WITHER:Lnet/minecraft/world/effect/MobEffect;")
+/**
+ * For bedEffectNoHunger
+ */
+@Mixin(HungerMobEffect.class)
+abstract class BedEffectsCommonHungerMobEffect {
+    @WrapMethod(
+            method = "applyEffectTick"
     )
-    private MobEffect onIsEffectWither(MobEffect original, @Local(argsOnly = true) LivingEntity livingEntity) {
-        if (SleepingOverhaul.serverConfig.bedEffectNoWither.get()) {
-            if (livingEntity instanceof Player && livingEntity.isSleeping())
-                return null;
-        }
-        return original;
-    }
-
-    @ModifyExpressionValue(
-            method = "applyEffectTick",
-            at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/world/effect/MobEffects;HUNGER:Lnet/minecraft/world/effect/MobEffect;")
-    )
-    private MobEffect onIsEffectHunger(MobEffect original, @Local(argsOnly = true) LivingEntity livingEntity) {
+    private boolean onApplyEffectTick(ServerLevel level, LivingEntity entity, int amplifier, Operation<Boolean> original) {
         if (SleepingOverhaul.serverConfig.bedEffectNoHunger.get()) {
-            if (livingEntity instanceof Player && livingEntity.isSleeping())
-                return null;
+            if (entity instanceof Player && entity.isSleeping())
+                return true; // do nothing but return success
         }
-        return original;
+        return original.call(level, entity, amplifier);
+    }
+}
+
+/**
+ * For bedEffectNoWither
+ */
+@Mixin(WitherMobEffect.class)
+abstract class BedEffectsCommonWitherMobEffect {
+    @WrapMethod(
+            method = "applyEffectTick"
+    )
+    private boolean onApplyEffectTick(ServerLevel level, LivingEntity entity, int amplifier, Operation<Boolean> original) {
+        if (SleepingOverhaul.serverConfig.bedEffectNoWither.get()) {
+            if (entity instanceof Player && entity.isSleeping())
+                return true; // do nothing but return success
+        }
+        return original.call(level, entity, amplifier);
     }
 }

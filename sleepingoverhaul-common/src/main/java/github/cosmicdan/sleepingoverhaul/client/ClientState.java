@@ -3,14 +3,13 @@ package github.cosmicdan.sleepingoverhaul.client;
 import github.cosmicdan.sleepingoverhaul.IClientState;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
+import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingPacket;
+import github.cosmicdan.sleepingoverhaul.networking.TimelapseChangePacket;
 import dev.architectury.networking.NetworkManager;
-import dev.architectury.networking.NetworkManager.PacketContext;
 import dev.architectury.networking.NetworkManager.Side;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
@@ -32,22 +31,20 @@ public class ClientState implements IClientState {
     private int timelapseCinematicStage = 0;
 
     public ClientState() {
-        NetworkManager.registerReceiver(Side.S2C, SleepingOverhaul.PACKET_TIMELAPSE_CHANGE, this::recvTimelapseChange);
-        NetworkManager.registerReceiver(Side.S2C, SleepingOverhaul.PACKET_TRY_REALLY_SLEEPING, this::recvTrySleepBounce);
+        NetworkManager.registerReceiver(Side.S2C, TimelapseChangePacket.TYPE, TimelapseChangePacket.STREAM_CODEC, this::recvTimelapseChange);
+        NetworkManager.registerReceiver(Side.S2C, ReallySleepingPacket.TYPE, ReallySleepingPacket.STREAM_CODEC, this::recvTrySleepBounce);
     }
 
-    private void recvTimelapseChange(final FriendlyByteBuf buf, final PacketContext context) {
-        //final Player player = context.getPlayer();
-        final long timelapseEnd = buf.readLong();
+    private void recvTimelapseChange(TimelapseChangePacket packet, NetworkManager.PacketContext context) {
+        final long timelapseEnd = packet.timelapseEnd();
         setTimelapseCamera(context.getPlayer(), timelapseEnd > -1);
         // also update serverState on the client side
         SleepingOverhaul.serverState.setTimelapseEndForClient(timelapseEnd);
     }
 
-    private void recvTrySleepBounce(final FriendlyByteBuf buf, final PacketContext context) {
+    private void recvTrySleepBounce(ReallySleepingPacket packet, NetworkManager.PacketContext context) {
         final Player player = context.getPlayer();
-        boolean reallySleeping = buf.readBoolean();
-        if (!reallySleeping) {
+        if (!packet.reallySleeping()) {
             player.displayClientMessage(Component.translatable("gui.sleepingoverhaul.sleepNotPossibleNow"), true);
             ((PlayerMixinProxy) player).so2_$setReallySleeping(false);
             // re-enable sleep button after 2 seconds
@@ -120,9 +117,7 @@ public class ClientState implements IClientState {
             final LocalPlayer player = Minecraft.getInstance().player;
             // Assume really-sleeping works so the client can update immediately; the server will bounce back if it fails.
             ((PlayerMixinProxy) player).so2_$setReallySleeping(true);
-            final FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-            buf.writeBoolean(true);
-            NetworkManager.sendToServer(SleepingOverhaul.PACKET_TRY_REALLY_SLEEPING, buf);
+            NetworkManager.sendToServer(new ReallySleepingPacket(true));
         }
     }
 }

@@ -44,7 +44,7 @@ subprojects {
         mappings loom.layered() {
             officialMojangMappings()
             // Via tags search on MC version at https://github.com/ParchmentMC/Parchment
-            parchment("org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip")
+            parchment("org.parchmentmc.data:parchment-1.21.4:2025.01.05@zip")
         }
     }
     
@@ -59,11 +59,11 @@ subprojects {
         // If you remove this line, sources will not be generated.
         withSourcesJar()
 
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 17
+        it.options.release = 21
     }
 }
