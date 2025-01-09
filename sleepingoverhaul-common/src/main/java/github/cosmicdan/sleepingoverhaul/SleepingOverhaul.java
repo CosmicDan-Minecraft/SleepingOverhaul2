@@ -31,9 +31,6 @@ public class SleepingOverhaul {
     public static ServerConfig serverConfig = null;
     public static ClientConfig clientConfig = null;
 
-    public static final ResourceLocation PACKET_TRY_REALLY_SLEEPING = ResourceLocation.fromNamespaceAndPath(SleepingOverhaul.MOD_ID, "is_really_sleeping");
-    public static final ResourceLocation PACKET_TIMELAPSE_CHANGE = ResourceLocation.fromNamespaceAndPath(SleepingOverhaul.MOD_ID, "timelapse_change");
-
     //public static void init() {
     @SuppressWarnings("AssignmentToStaticFieldFromInstanceMethod")
     public SleepingOverhaul(final IModPlatform modPlatform) {
