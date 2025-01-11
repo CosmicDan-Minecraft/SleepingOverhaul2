@@ -15,5 +15,8 @@ public class SleepingOverhaulNeoForge {
     public SleepingOverhaulNeoForge(ModContainer container, IEventBus modBus) {
         CONTAINER = container;
         INSTANCE = new SleepingOverhaul(new ModPlatformForge());
+
+        // DEBUG/TESTING ONLY
+        //TestEventsNeoForge.subTestEvents();
     }
 }
