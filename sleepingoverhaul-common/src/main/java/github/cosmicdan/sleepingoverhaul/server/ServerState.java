@@ -96,22 +96,17 @@ public class ServerState {
     private void tryReallySleepingRecv(FriendlyByteBuf buf, NetworkManager.PacketContext context) {
         final Player player = context.getPlayer();
         boolean reallySleeping = buf.readBoolean();
-        if (reallySleeping && SleepingOverhaul.MODPLATFORM.canPlayerSleepNow(player)) {
-            //noinspection CastToIncompatibleInterface
-            ((PlayerMixinProxy) player).so2_$setReallySleeping(reallySleeping);
-        } else {
-            reallySleeping = false;
-        }
         if (player instanceof ServerPlayer serverPlayer) { // should always be true
-            if (!reallySleeping) {
+            if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get() && SleepingOverhaul.MODPLATFORM.canPlayerSleepNow(player)) {
+                //noinspection CastToIncompatibleInterface
+                ((PlayerMixinProxy) player).so2_$setReallySleeping(true);
+                // Update sleeping list now because we made it check for reallySleeping in BedRestMixinsCommonSleepStatus, so need to fire it again
+                serverPlayer.serverLevel().updateSleepingPlayerList();
+            } else {
+                // not allowed to sleep now, send false back to player
                 final FriendlyByteBuf bufPong = new FriendlyByteBuf(Unpooled.buffer());
                 bufPong.writeBoolean(false);
                 NetworkManager.sendToPlayer(serverPlayer, SleepingOverhaul.PACKET_TRY_REALLY_SLEEPING, bufPong);
-            } else {
-                if (SleepingOverhaul.serverConfig.bedRestEnabled.get()) {
-                    // Update sleeping list because we've made it check for reallySleeping in BedRestMixinsCommonSleepStatus
-                    serverPlayer.serverLevel().updateSleepingPlayerList();
-                }
             }
         } else {
             SleepingOverhaul.LOGGER.warn("The player instance received from packet is not ServerPlayer, eh? Forge/Fabric changed stuff? Bed rest will be bugged...!");
