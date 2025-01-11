@@ -2,22 +2,13 @@ package github.cosmicdan.sleepingoverhaul.fabric;
 
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.server.MinecraftServer;
 
 public class SleepingOverhaulFabric implements ModInitializer {
-    private SleepingOverhaul instance = null;
+    private SleepingOverhaul INSTANCE = null;
 
     @Override
     public void onInitialize() {
-        instance = new SleepingOverhaul(new ModPlatformFabric());
-
-        /**
-         * Only used for performance counting stats right now
-         */
-        ServerTickEvents.END_SERVER_TICK.register((final MinecraftServer server) -> {
-            SleepingOverhaul.serverState.onServerTickPost(server);
-        });
+        INSTANCE = new SleepingOverhaul(new ModPlatformFabric());
 
         // DEBUG/TESTING ONLY
         //TestEventsFabric.subTestEvents();

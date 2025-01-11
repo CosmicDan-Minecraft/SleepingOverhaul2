@@ -49,7 +49,7 @@ dependencies {
     
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
-    modRuntimeOnly("curse.maven:roughly-enough-items-310111:5846921")
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:12.1.785"
     // Comforts 6.4.0 for Fabric (and Spectre lib)
     modImplementation("curse.maven:comforts-276951:5503514")
     modLocalRuntime("curse.maven:spectrelib-993948:5217601")

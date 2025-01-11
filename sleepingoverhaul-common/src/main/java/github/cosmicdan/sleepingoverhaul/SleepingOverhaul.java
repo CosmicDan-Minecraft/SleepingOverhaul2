@@ -1,5 +1,6 @@
 package github.cosmicdan.sleepingoverhaul;
 
+import dev.architectury.event.events.common.TickEvent;
 import github.cosmicdan.sleepingoverhaul.client.ClientConfig;
 import github.cosmicdan.sleepingoverhaul.client.ClientState;
 import github.cosmicdan.sleepingoverhaul.server.ClientStateDummy;
@@ -55,6 +56,7 @@ public class SleepingOverhaul {
 
 
         EntityEvent.LIVING_HURT.register(SleepingOverhaul::onLivingHurt);
+        TickEvent.SERVER_POST.register(serverState::onServerTickPost);
     }
 
     private static EventResult onLivingHurt(LivingEntity entity, DamageSource source, float amount) {

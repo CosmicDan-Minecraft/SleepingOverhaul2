@@ -54,9 +54,8 @@ dependencies {
     implementation(include("io.github.llamalad7:mixinextras-forge:0.4.1"))
 
     //// Mod compatibilities
-    // REI (for finding and giving mod-added stuff) and Cloth Config
-    modLocalRuntime("curse.maven:roughly-enough-items-310111:5846923")
-    modLocalRuntime("curse.maven:cloth-config-348521:5729105")
+    // REI (for finding and giving mod-added stuff)
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:12.1.785"
     // Comforts (and Spectre lib)
     modImplementation("curse.maven:comforts-276951:5503516")
     modLocalRuntime("curse.maven:spectrelib-993948:5217603")

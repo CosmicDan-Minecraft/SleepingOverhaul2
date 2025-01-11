@@ -17,7 +17,7 @@ public class BedRestMixinsForge {}
 abstract class BedRestMixinsForgeServerPlayer {
 
     /**
-     * For Bed Rest, remove isDay check during tick. We perform the check later in ServerState#onReallySleepingRecv
+     * For Bed Rest; remove fireSleepingTimeCheck check on ServerPlayer's startSleepInBed. We perform the check later in ServerState#onReallySleepingRecv (call to SleepingOverhaul.MODPLATFORM.canPlayerSleepNow)
      */
     @WrapOperation(
             method = "startSleepInBed",
@@ -35,7 +35,7 @@ abstract class BedRestMixinsForgeServerPlayer {
 abstract class BedRestMixinsForgePlayer {
 
     /**
-     * For Bed Rest, remove isDay check during tick. We perform the check later in ServerState#onReallySleepingRecv
+     * For Bed Rest; remove fireSleepingTimeCheck check during Player's tick. Instead of firing constantly, we only check once in ServerState#onReallySleepingRecv (call to SleepingOverhaul.MODPLATFORM.canPlayerSleepNow)
      */
     @WrapOperation(
             method = "tick",
