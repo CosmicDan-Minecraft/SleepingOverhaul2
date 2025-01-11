@@ -18,5 +18,8 @@ public class SleepingOverhaulFabric implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register((final MinecraftServer server) -> {
             SleepingOverhaul.serverState.onServerTickPost(server);
         });
+
+        // DEBUG/TESTING ONLY
+        //TestEventsFabric.subTestEvents();
     }
 }

@@ -19,6 +19,8 @@ public class SleepingOverhaulForge {
 
         // register Forge-specific events
         MinecraftForge.EVENT_BUS.register(this);
+
+        //MinecraftForge.EVENT_BUS.register(new TestEventsForge());
     }
 
     /**
