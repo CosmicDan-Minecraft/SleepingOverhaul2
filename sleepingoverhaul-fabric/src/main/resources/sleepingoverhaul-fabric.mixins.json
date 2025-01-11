@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BedRestMixinsFabricServerPlayer",
-    "BedRestMixinsFabricPlayer"
+    "BedRestMixinsFabricPlayer",
+    "FeaturesMixinsFabricServerPlayer"
   ],
   "client": [
   ],

@@ -52,41 +52,4 @@ abstract class FeaturesMixinsCommonServerPlayer {
             canSetSpawn =  true;
         return canSetSpawn;
     }
-
-    /**
-     * For feature to allow rest/sleep in any dimension
-     * TODO: Forge messed with this, needs its own
-     */
-    /*
-    @WrapOperation(
-            method = "startSleepInBed",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;natural()Z")
-    )
-    private boolean onStartSleepInBedNaturalDimensionCheck(DimensionType instance, Operation<Boolean> original) {
-        boolean isNatural = instance.natural();
-        if (!isNatural && SleepingOverhaul.serverConfig.featureAllowAnyDimension.get())
-            isNatural = true;
-        return isNatural;
-    }
-
-     */
-
-    /**
-     * For feature to allow setting spawn in any dimension. Note that this is a *block* to the call; the actual check for setting spawn was done in BedBlock
-     * TODO: Forge messed with this, needs its own
-     */
-    /*
-    @WrapOperation(
-            method = "startSleepInBed",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V")
-    )
-    private void onStartSleepInBedSetRespawn(ServerPlayer instance, ResourceKey<Level> levelResourceKey, BlockPos dimension, float position, boolean angle, boolean forced, Operation<Void> original) {
-        // note that the original call usually DOES set spawn since BedBlock does the check itself, so this acts as "block" if the feature is *not* enabled
-        boolean canSetSpawn = serverLevel().dimensionType().bedWorks();
-        if (!canSetSpawn && SleepingOverhaul.serverConfig.featureSetSpawnAnyDimension.get())
-            canSetSpawn = true;
-        if (canSetSpawn)
-            original.call(instance, levelResourceKey, dimension, position, angle, forced);
-    }
-     */
 }
