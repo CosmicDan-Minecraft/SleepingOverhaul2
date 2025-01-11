@@ -9,5 +9,8 @@ public class SleepingOverhaulFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         INSTANCE = new SleepingOverhaul(new ModPlatformFabric());
+
+        // DEBUG/TESTING ONLY
+        //TestEventsFabric.subTestEvents();
     }
 }
