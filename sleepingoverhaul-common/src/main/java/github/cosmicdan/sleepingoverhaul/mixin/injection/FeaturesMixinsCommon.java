@@ -55,7 +55,9 @@ abstract class FeaturesMixinsCommonServerPlayer {
 
     /**
      * For feature to allow rest/sleep in any dimension
+     * TODO: Forge messed with this, needs its own
      */
+    /*
     @WrapOperation(
             method = "startSleepInBed",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/dimension/DimensionType;natural()Z")
@@ -67,9 +69,13 @@ abstract class FeaturesMixinsCommonServerPlayer {
         return isNatural;
     }
 
+     */
+
     /**
      * For feature to allow setting spawn in any dimension. Note that this is a *block* to the call; the actual check for setting spawn was done in BedBlock
+     * TODO: Forge messed with this, needs its own
      */
+    /*
     @WrapOperation(
             method = "startSleepInBed",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;setRespawnPosition(Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/core/BlockPos;FZZ)V")
@@ -82,4 +88,5 @@ abstract class FeaturesMixinsCommonServerPlayer {
         if (canSetSpawn)
             original.call(instance, levelResourceKey, dimension, position, angle, forced);
     }
+     */
 }

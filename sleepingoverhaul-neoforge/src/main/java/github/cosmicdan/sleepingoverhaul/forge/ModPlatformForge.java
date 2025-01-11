@@ -1,8 +1,14 @@
 package github.cosmicdan.sleepingoverhaul.forge;
 
+import com.mojang.datafixers.util.Either;
 import github.cosmicdan.sleepingoverhaul.IModPlatform;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.event.EventHooks;
 
 /**
  * @author Daniel 'CosmicDan' Connolly
@@ -18,17 +24,27 @@ public class ModPlatformForge implements IModPlatform {
         SleepingOverhaulNeoForge.CONTAINER.registerConfig(ModConfig.Type.CLIENT, spec);
     }
 
-    /*
-    public static boolean canPlayerStartSleepNow(final Player player) {
-
+    @Override
+    public boolean canPlayerStartSleepNow(ServerPlayer serverPlayer) {
+        Either<Player.BedSleepingProblem, Unit> vanillaResult = serverPlayer.serverLevel().isDay() ? Either.left(Player.BedSleepingProblem.NOT_POSSIBLE_NOW) : Either.right(Unit.INSTANCE);
+        if (serverPlayer.getSleepingPos().isPresent()) {
+            final BlockPos bedPos = serverPlayer.getSleepingPos().get();
+            Either<Player.BedSleepingProblem, Unit> result = EventHooks.canPlayerStartSleeping(serverPlayer, bedPos, vanillaResult);
+            if (result.right().isPresent() && result.right().get() == Unit.INSTANCE) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static boolean canPlayerContinueSleepNow(final Player player) {
+    @Override
+    public boolean canPlayerContinueSleepNow(Player player) {
+        //Player.BedSleepingProblem vanillaResult = player.level().isDay() ? Player.BedSleepingProblem.NOT_POSSIBLE_NOW : null;
+        //return EventHooks.canEntityContinueSleeping(player, vanillaResult);
         // Only works on server side! If called on client, will always return false. All the more reason to use [TODO] Bed Groups.
         // Note that below is what NeoForged does, but we remove the hardcoded check for a BedBlock
         //boolean hasBed = player.getSleepingPos().map(pos -> player.level().getBlockState(pos).isBed(player.level(), pos, player)).orElse(false);
         boolean hasBed = player.getSleepingPos().isPresent();
         return EventHooks.canEntityContinueSleeping(player, hasBed ? null : Player.BedSleepingProblem.NOT_POSSIBLE_HERE);
     }
-     */
 }

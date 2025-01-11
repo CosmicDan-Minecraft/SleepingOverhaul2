@@ -96,9 +96,7 @@ public class ServerState {
         final Player player = context.getPlayer();
         boolean reallySleeping = packet.reallySleeping();
         if (player instanceof ServerPlayer serverPlayer) { // should always be true
-            //if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get() && ModPlatform.canPlayerStartSleepNow(player)) {
-            // TODO: canPlayerStartSleepNow. NeoForge has expanded (better) events, complicates things :\
-            if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get()) {
+            if (reallySleeping && SleepingOverhaul.serverConfig.bedRestEnabled.get() && SleepingOverhaul.MODPLATFORM.canPlayerStartSleepNow(serverPlayer)) {
                 //noinspection CastToIncompatibleInterface
                 ((PlayerMixinProxy) player).so2_$setReallySleeping(true);
                 // Update sleeping list now because we made it check for reallySleeping in BedRestMixinsCommonSleepStatus, so need to fire it again

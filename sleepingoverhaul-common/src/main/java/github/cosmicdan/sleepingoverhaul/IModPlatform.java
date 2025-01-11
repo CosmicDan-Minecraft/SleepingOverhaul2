@@ -1,5 +1,9 @@
 package github.cosmicdan.sleepingoverhaul;
 
+import com.mojang.datafixers.util.Either;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Unit;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
@@ -10,15 +14,8 @@ public interface IModPlatform {
 
     void registerConfigClient(ModConfigSpec spec);
 
-    /*
-    @ExpectPlatform
-    public static boolean canPlayerStartSleepNow(final Player player) {
-        return false;
-    }
+    boolean canPlayerStartSleepNow(final ServerPlayer serverPlayer);
 
-    @ExpectPlatform
-    public static boolean canPlayerContinueSleepNow(final Player player) {
-        return false;
-    }
-     */
+    boolean canPlayerContinueSleepNow(final Player player);
+
 }

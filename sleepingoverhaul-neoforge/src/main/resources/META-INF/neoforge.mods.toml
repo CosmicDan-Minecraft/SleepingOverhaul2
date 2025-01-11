@@ -36,4 +36,7 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[mixins]]
-config = "sleepingoverhaul-common.mixins.json,sleepingoverhaul-neoforge.mixins.json"
+config = "sleepingoverhaul-neoforge.mixins.json"
+
+[[mixins]]
+config = "sleepingoverhaul-common.mixins.json"
