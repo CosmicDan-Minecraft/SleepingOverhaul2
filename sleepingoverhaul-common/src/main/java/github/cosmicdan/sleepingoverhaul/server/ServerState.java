@@ -2,6 +2,7 @@ package github.cosmicdan.sleepingoverhaul.server;
 
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
+import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingBouncePacket;
 import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingPacket;
 import github.cosmicdan.sleepingoverhaul.networking.TimelapseChangePacket;
 import dev.architectury.networking.NetworkManager;
@@ -102,7 +103,7 @@ public class ServerState {
                 // Update sleeping list now because we made it check for reallySleeping in BedRestMixinsCommonSleepStatus, so need to fire it again
                 serverPlayer.serverLevel().updateSleepingPlayerList();
             } else {
-                NetworkManager.sendToServer(new ReallySleepingPacket(false));
+                NetworkManager.sendToPlayer(serverPlayer, new ReallySleepingBouncePacket(false));
             }
         } else {
             SleepingOverhaul.LOGGER.warn("The player instance received from packet is not ServerPlayer, eh? Forge/Fabric changed stuff? Bed rest will be bugged...!");

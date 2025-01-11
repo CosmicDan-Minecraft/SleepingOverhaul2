@@ -3,6 +3,7 @@ package github.cosmicdan.sleepingoverhaul.client;
 import github.cosmicdan.sleepingoverhaul.IClientState;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
+import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingBouncePacket;
 import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingPacket;
 import github.cosmicdan.sleepingoverhaul.networking.TimelapseChangePacket;
 import dev.architectury.networking.NetworkManager;
@@ -32,7 +33,7 @@ public class ClientState implements IClientState {
 
     public ClientState() {
         NetworkManager.registerReceiver(Side.S2C, TimelapseChangePacket.TYPE, TimelapseChangePacket.STREAM_CODEC, this::recvTimelapseChange);
-        NetworkManager.registerReceiver(Side.S2C, ReallySleepingPacket.TYPE, ReallySleepingPacket.STREAM_CODEC, this::recvTrySleepBounce);
+        NetworkManager.registerReceiver(Side.S2C, ReallySleepingBouncePacket.TYPE, ReallySleepingBouncePacket.STREAM_CODEC, this::recvTrySleepBounce);
     }
 
     private void recvTimelapseChange(TimelapseChangePacket packet, NetworkManager.PacketContext context) {
@@ -42,7 +43,7 @@ public class ClientState implements IClientState {
         SleepingOverhaul.serverState.setTimelapseEndForClient(timelapseEnd);
     }
 
-    private void recvTrySleepBounce(ReallySleepingPacket packet, NetworkManager.PacketContext context) {
+    private void recvTrySleepBounce(ReallySleepingBouncePacket packet, NetworkManager.PacketContext context) {
         final Player player = context.getPlayer();
         if (!packet.reallySleeping()) {
             player.displayClientMessage(Component.translatable("gui.sleepingoverhaul.sleepNotPossibleNow"), true);
