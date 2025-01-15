@@ -55,7 +55,7 @@ abstract class FeaturesMixinsCommonPlayer {
 @Mixin(ServerPlayer.class)
 abstract class FeaturesMixinsCommonServerPlayer {
     @Shadow
-    public abstract ServerLevel serverLevel();
+    public abstract ServerLevel getLevel();
 
     /**
      * For feature to allow rest/sleep in any dimension
@@ -80,7 +80,7 @@ abstract class FeaturesMixinsCommonServerPlayer {
     )
     private void onStartSleepInBedSetRespawn(ServerPlayer instance, ResourceKey<Level> levelResourceKey, BlockPos dimension, float position, boolean angle, boolean forced, Operation<Void> original) {
         // note that the original call usually DOES set spawn since BedBlock does the check itself, so this acts as "block" if the feature is *not* enabled
-        boolean canSetSpawn = serverLevel().dimensionType().bedWorks();
+        boolean canSetSpawn = getLevel().dimensionType().bedWorks();
         if (!canSetSpawn && SleepingOverhaul.serverConfig.featureSetSpawnAnyDimension.get())
             canSetSpawn = true;
         if (canSetSpawn)

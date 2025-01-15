@@ -25,7 +25,7 @@ public class ModPlatformFabric implements IModPlatform {
     @Override
     public boolean canPlayerSleepNow(final Player player) {
         // TODO: Bed Groups
-        boolean isDay = player.level().isDay();
+        boolean isDay = player.level.isDay();
         final Optional<BlockPos> bedPosMaybe = player.getSleepingPos();
         if (bedPosMaybe.isPresent()) {
             final BlockPos bedPos = bedPosMaybe.get();

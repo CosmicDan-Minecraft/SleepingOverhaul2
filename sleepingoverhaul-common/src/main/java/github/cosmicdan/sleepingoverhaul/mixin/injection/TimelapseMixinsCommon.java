@@ -134,7 +134,7 @@ abstract class TimelapseMixinsCommonPlayer extends LivingEntity {
         at = @At(value = "RETURN")
     )
     public void onStopSleepInBed(boolean wakeImmediately, boolean updateLevelForSleepingPlayers, CallbackInfo ci) {
-        if (level() instanceof ServerLevel serverLevel) {
+        if (level instanceof ServerLevel serverLevel) {
             if (getServer().isSingleplayer()) {
                 SleepingOverhaul.serverState.stopTimelapseNow(serverLevel);
             }

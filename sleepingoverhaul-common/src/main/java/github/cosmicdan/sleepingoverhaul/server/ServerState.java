@@ -101,7 +101,7 @@ public class ServerState {
                 //noinspection CastToIncompatibleInterface
                 ((PlayerMixinProxy) player).so2_$setReallySleeping(true);
                 // Update sleeping list now because we made it check for reallySleeping in BedRestMixinsCommonSleepStatus, so need to fire it again
-                serverPlayer.serverLevel().updateSleepingPlayerList();
+                serverPlayer.getLevel().updateSleepingPlayerList();
             } else {
                 // not allowed to sleep now, send false back to player
                 final FriendlyByteBuf bufPong = new FriendlyByteBuf(Unpooled.buffer());

@@ -43,22 +43,20 @@ dependencies {
     shadowBundle(project(path: ":${project.modid}-common", configuration: "transformProductionFabric"))
     
     // Forge config API port
-    implementation 'com.electronwill.night-config:core:3.6.3'
-    implementation 'com.electronwill.night-config:toml:3.6.3'
-    modImplementation "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:8.0.0"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:6.0.2"
     
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:12.1.785"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:11.1.769"
     // Comforts 6.4.0 for Fabric (and Spectre lib)
-    modImplementation("curse.maven:comforts-276951:5503514")
-    modLocalRuntime("curse.maven:spectrelib-993948:5217601")
+    modImplementation("curse.maven:comforts-276951:4977925")
+    modLocalRuntime("curse.maven:spectrelib-993948:5217476")
     // Cardinal Components API needed for Comforts-Fabric
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.2.1"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.2.1"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.1.0"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.1.0"
     // Sleep Tight for Fabric 1.1.19 (and Moonlight Lib)
-    modImplementation("curse.maven:sleep-tight-817564:5085864")
-    modLocalRuntime("curse.maven:selene-499980:6034618")
+    modImplementation("curse.maven:sleep-tight-817564:4574815")
+    modLocalRuntime("curse.maven:selene-499980:4567754")
     
     // TODO
     // Runtime only mods
