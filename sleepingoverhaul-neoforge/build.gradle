@@ -63,13 +63,9 @@ dependencies {
     
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
-    // TODO
-    // Comforts (and Spectre lib) for Fabric
-    // TODO
-    // Cardinal Components API needed for Comforts-Fabric
-    // TODO
-    // Sleep Tight (and Moonlight Lib) for Fabric
-    // TODO
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.788"
+    // Comforts for NeoForge
+    modRuntimeOnly "curse.maven:comforts-276951:5821146"
 }
 
 processResources {

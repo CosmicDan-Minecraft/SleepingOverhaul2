@@ -15,8 +15,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Optional;
@@ -63,7 +63,7 @@ public class ServerState {
                 final Optional<ServerPlayer> firstPlayerMaybe = server.getPlayerList().getPlayers().stream().findFirst();
                 if (firstPlayerMaybe.isPresent()) {
                     final BlockPos firstPlayerPosAbove = firstPlayerMaybe.get().getOnPos().above(2);
-                    EntityType.ZOMBIE.spawn(server.overworld(), firstPlayerPosAbove, EntitySpawnReason.SPAWNER);
+                    EntityType.ZOMBIE.spawn(server.overworld(), firstPlayerPosAbove, MobSpawnType.SPAWNER);
                 }
             }
         }

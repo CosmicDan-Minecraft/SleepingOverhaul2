@@ -19,6 +19,6 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     
     // Forge config API port
-    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:21.4.1"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi:21.1.3"
 }
 

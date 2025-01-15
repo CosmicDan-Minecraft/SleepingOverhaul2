@@ -10,11 +10,10 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.ClientInput;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -111,25 +110,26 @@ abstract class TimelapseMixinsCommonClientGui {
 
 @Mixin(LocalPlayer.class)
 abstract class TimelapseMixinsCommonClientLocalPlayer {
-
-    @Shadow
-    public ClientInput input;
-
     /**
      * For option to prevent non-player movement during timelapse
      */
     @WrapOperation(
             method = "aiStep",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;tick()V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V")
     )
-    private void onTickInput(ClientInput instance, Operation<Void> original) {
+    private void onTickInput(Input input, boolean isSneaking, float sneakingSpeedMultiplier, Operation<Void> original) {
         if (SleepingOverhaul.serverState.isTimelapseActive() && SleepingOverhaul.serverConfig.noMovementDuringTimelapse.get()) {
             // apart from not calling original, also set all input to none for maximum compatibility
             input.leftImpulse = 0.0f;
             input.forwardImpulse = 0.0f;
-            input.keyPresses = Input.EMPTY;
+            input.up = false;
+            input.down = false;
+            input.left = false;
+            input.right = false;
+            input.jumping = false;
+            input.shiftKeyDown = false;
         } else {
-            original.call(instance);
+            original.call(input, isSneaking, sneakingSpeedMultiplier);
         }
     }
 }

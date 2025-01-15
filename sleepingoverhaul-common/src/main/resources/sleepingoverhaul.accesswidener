@@ -1,2 +1,4 @@
 accessWidener   v2  named
+accessible class net/minecraft/world/effect/PoisonMobEffect
 accessible class net/minecraft/world/effect/HungerMobEffect
+accessible class net/minecraft/world/effect/WitherMobEffect
