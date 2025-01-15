@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "id": "sleepingoverhaul",
   "version": "${version}",
-  "name": "Sleeping Overhaul",
+  "name": "Sleeping Overhaul 2",
   "description": "Replaces skip-to-day on sleep with a beautiful panoramic timelapse, and more!",
   "authors": [
     "CosmicDan"
   ],
   "contact": {
-    "homepage": "https://www.cosmicdan.com",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/sleepingoverhaul2",
     "sources": "https://github.com/CosmicDan-Minecraft/SleepingOverhaul2/"
   },
   "license": "LGPL3",
