@@ -57,16 +57,16 @@ public class SleepingOverhaul {
     private EventResult onLivingHurt(LivingEntity entity, DamageSource source, float amount) {
         EventResult eventResult = EventResult.pass(); // default = pass it on
         if (serverState.isTimelapseActive()) {
-            if (entity instanceof ServerPlayer player) {
+            if (entity instanceof ServerPlayer serverPlayer) {
                 if (! source.getMsgId().equals(TimelapseKillDamageSource.MSG_ID)) {
-                    final float adjustedDamage = serverState.getPlayerHurtAdj(player, source, amount);
+                    final float adjustedDamage = serverState.getPlayerHurtAdj(serverPlayer, source, amount);
                     if (Float.isNaN(adjustedDamage))
                         // NaN = damage was cancelled
                         eventResult = EventResult.interruptFalse();
                     else if (Float.isInfinite(adjustedDamage)) {
                         // infinite = insta-kill configured
                         eventResult = EventResult.interruptFalse();
-                        player.hurt(new TimelapseKillDamageSource(), Float.MAX_VALUE);
+                        serverPlayer.hurtServer(serverPlayer.serverLevel(), new TimelapseKillDamageSource(), Float.MAX_VALUE);
                     }
                     // Note: Player will always leave bed if they receive any damage;
                 }
