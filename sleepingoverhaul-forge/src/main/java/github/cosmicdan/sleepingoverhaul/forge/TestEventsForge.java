@@ -5,7 +5,7 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.event.entity.player.SleepingTimeCheckEvent;
-import net.minecraftforge.event.level.SleepFinishedTimeEvent;
+import net.minecraftforge.event.world.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class TestEventsForge {

@@ -118,9 +118,9 @@ abstract class TimelapseMixinsCommonClientLocalPlayer {
      */
     @WrapOperation(
             method = "aiStep",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(ZF)V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/Input;tick(Z)V")
     )
-    private void onTickInput(Input input, boolean isSneaking, float sneakingSpeedMultiplier, Operation<Void> original) {
+    private void onTickInput(Input input, boolean isMovingSlowly, Operation<Void> original) {
         if (SleepingOverhaul.serverState.isTimelapseActive() && SleepingOverhaul.serverConfig.noMovementDuringTimelapse.get()) {
             // apart from not calling original, also set all input to none for maximum compatibility
             input.leftImpulse = 0.0f;
@@ -132,7 +132,7 @@ abstract class TimelapseMixinsCommonClientLocalPlayer {
             input.jumping = false;
             input.shiftKeyDown = false;
         } else {
-            original.call(input, isSneaking, sneakingSpeedMultiplier);
+            original.call(input, isMovingSlowly);
         }
     }
 }

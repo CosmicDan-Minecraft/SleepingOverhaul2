@@ -55,13 +55,9 @@ dependencies {
 
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:9.2.784"
-    // Comforts (and Spectre lib)
-    modImplementation("curse.maven:comforts-276951:4977779")
-    modLocalRuntime("curse.maven:spectrelib-993948:5217494")
-    // Sleep Tight (and Moonlight/Selene Lib)
-    modImplementation("curse.maven:sleep-tight-817564:5351547")
-    modLocalRuntime("curse.maven:selene-499980:5567102")
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:8.4.778"
+    // Comforts
+    modImplementation("curse.maven:comforts-276951:4398246")
 }
 
 processResources {

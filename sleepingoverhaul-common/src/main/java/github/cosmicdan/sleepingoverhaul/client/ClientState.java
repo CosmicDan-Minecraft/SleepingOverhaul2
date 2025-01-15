@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Timer;
@@ -48,7 +48,7 @@ public class ClientState implements IClientState {
         final Player player = context.getPlayer();
         boolean reallySleeping = buf.readBoolean();
         if (!reallySleeping) {
-            player.displayClientMessage(Component.translatable("gui.sleepingoverhaul.sleepNotPossibleNow"), true);
+            player.displayClientMessage(new TranslatableComponent("gui.sleepingoverhaul.sleepNotPossibleNow"), true);
             ((PlayerMixinProxy) player).so2_$setReallySleeping(false);
             // re-enable sleep button after 2 seconds
             new Timer().schedule(new TimerTask() {

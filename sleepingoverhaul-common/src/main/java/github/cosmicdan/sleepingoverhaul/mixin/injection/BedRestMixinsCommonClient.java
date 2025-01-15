@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.InBedChatScreen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -56,7 +56,7 @@ abstract class BedRestMixinsCommonClientInBedChatScreen extends ChatScreen {
                 // add our new "Sleep" button with same dimensions, 5px to the right of screen center
 
                 final Button sleepButton = new Button((width / 2) - 100 - 5, buttonLeave.y, 100, 20,
-                        Component.translatable("gui.sleepingoverhaul.sleepButton"),
+                        new TranslatableComponent("gui.sleepingoverhaul.sleepButton"),
                         (Button button) -> SleepingOverhaul.clientState.onClickSleep()
                 );
 
