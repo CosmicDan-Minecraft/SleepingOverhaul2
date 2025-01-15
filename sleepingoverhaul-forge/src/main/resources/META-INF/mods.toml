@@ -6,13 +6,13 @@ license = "LGPL3"
 [[mods]]
 modId = "sleepingoverhaul"
 version = "${version}"
-displayName = "Sleeping Overhaul"
+displayName = "Sleeping Overhaul 2"
 authors = "CosmicDan"
 description = '''
 Replaces skip-to-day on sleep with a beautiful panoramic timelapse, and more!
 '''
 logoFile = "logo.png"
-displayURL = "https://github.com/CosmicDan-Minecraft/SleepingOverhaul2/"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/sleepingoverhaul2"
 
 [[dependencies.sleepingoverhaul]]
 modId = "forge"
@@ -32,6 +32,5 @@ side = "BOTH"
 modId = "architectury"
 mandatory = true
 versionRange = "[9.2.14,)"
-# An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-ordering = "NONE"
+ordering = "AFTER"
 side = "BOTH"
