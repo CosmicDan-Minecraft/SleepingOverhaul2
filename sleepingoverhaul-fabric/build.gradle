@@ -48,24 +48,15 @@ dependencies {
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:11.1.769"
-    // Comforts 6.4.0 for Fabric (and Spectre lib)
+    // Comforts for Fabric (and Spectre lib)
     modImplementation("curse.maven:comforts-276951:4977925")
     modLocalRuntime("curse.maven:spectrelib-993948:5217476")
     // Cardinal Components API needed for Comforts-Fabric
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.1.0"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.1.0"
-    // Sleep Tight for Fabric 1.1.19 (and Moonlight Lib)
+    // Sleep Tight for Fabric (and Moonlight Lib)
     modImplementation("curse.maven:sleep-tight-817564:4574815")
     modLocalRuntime("curse.maven:selene-499980:4567754")
-    
-    // TODO
-    // Runtime only mods
-    // Catalogue (1.19+) or Mod Menu
-    //modLocalRuntime "curse.maven:catalogue-fabric-667377:4590891"
-    // Mod Menu 1.18.2
-    //modLocalRuntime "curse.maven:modmenu-308702:4145213"
-    // Configured (Config GUI) 1.18.2
-    //modLocalRuntime "curse.maven:configured-457570:4462832"
 }
 
 processResources {
