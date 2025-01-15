@@ -43,17 +43,17 @@ dependencies {
     shadowBundle(project(path: ":${project.modid}-common", configuration: "transformProductionFabric"))
     
     // Forge config API port
-    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.4.1"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.3"
     
     //// Mod compatibilities
     // REI (for finding and giving mod-added stuff)
-    // TODO
-    // Comforts (and Spectre lib) for Fabric
-    // TODO
-    // Cardinal Components API needed for Comforts-Fabric
-    // TODO
-    // Sleep Tight (and Moonlight Lib) for Fabric
-    // TODO
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:16.0.788"
+    // Comforts for Fabric
+    modRuntimeOnly "curse.maven:comforts-276951:5821144"
+    // Libs for Comforts-Fabric
+    modImplementation "com.illusivesoulworks.spectrelib:spectrelib-fabric:0.17.2+1.21"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:6.1.0"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:6.1.0"
 }
 
 processResources {

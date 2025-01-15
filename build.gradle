@@ -33,6 +33,11 @@ subprojects {
             name = 'Ladysnake Mods'
             url = 'https://maven.ladysnake.org/releases'
         }
+        // SpectreLib (for Comforts)
+        maven {
+            name = 'Illusive Soulworks'
+            url = 'https://maven.theillusivec4.top'
+        }
     }
 
     loom {
