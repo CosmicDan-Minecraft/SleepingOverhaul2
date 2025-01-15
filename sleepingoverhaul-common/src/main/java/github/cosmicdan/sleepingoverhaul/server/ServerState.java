@@ -63,7 +63,7 @@ public class ServerState {
                 final Optional<ServerPlayer> firstPlayerMaybe = server.getPlayerList().getPlayers().stream().findFirst();
                 if (firstPlayerMaybe.isPresent()) {
                     final BlockPos firstPlayerPosAbove = firstPlayerMaybe.get().getOnPos().above(2);
-                    EntityType.ZOMBIE.spawn(server.overworld(), firstPlayerPosAbove, MobSpawnType.SPAWNER);
+                    EntityType.ZOMBIE.spawn(server.overworld(), null, null, firstPlayerPosAbove, MobSpawnType.SPAWNER, false, false);
                 }
             }
         }
@@ -130,7 +130,7 @@ public class ServerState {
     public float getPlayerHurtAdj(ServerPlayer player, DamageSource source, float amount) {
         float amountAdjusted = amount;
         if (isTimelapseActive()) {
-            if (!source.isIndirect() && player.isSleeping()) {
+            if (!source.isMagic() && player.isSleeping()) {
                 // timelapse active and player was attacked by direct damage
                 switch (SleepingOverhaul.serverConfig.timelapseSleepersDirectDamageAction.get()) {
                     case NoChange -> {}

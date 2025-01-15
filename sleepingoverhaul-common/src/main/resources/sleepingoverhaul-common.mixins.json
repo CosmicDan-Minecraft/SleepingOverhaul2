@@ -20,9 +20,6 @@
   ],
   "client": [
     "BedRestMixinsCommonClientInBedChatScreen",
-    "FeaturesMixinsCommonClientChatScreen",
-    "FeaturesMixinsCommonClientInBedChatScreen",
-    "FeaturesMixinsCommonClientScreen",
     "TimelapseMixinsCommonClientCamera",
     "TimelapseMixinsCommonClientGui",
     "TimelapseMixinsCommonClientLocalPlayer"

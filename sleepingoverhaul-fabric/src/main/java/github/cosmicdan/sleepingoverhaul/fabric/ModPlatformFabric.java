@@ -2,11 +2,11 @@ package github.cosmicdan.sleepingoverhaul.fabric;
 
 import github.cosmicdan.sleepingoverhaul.IModPlatform;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
-import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.ModLoadingContext;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.IConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class ModPlatformFabric implements IModPlatform {
     @Override
     public void registerConfig(final ModConfig.Type type, final IConfigSpec<ForgeConfigSpec> spec) {
-        ForgeConfigRegistry.INSTANCE.register(SleepingOverhaul.MOD_ID, type, spec);
+        ModLoadingContext.registerConfig(SleepingOverhaul.MOD_ID, type, spec);
     }
 
     @Override

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[45,)"
+loaderVersion = "[43,)"
 #issueTrackerURL = ""
 license = "LGPL3"
 
@@ -17,20 +17,20 @@ displayURL = "https://github.com/CosmicDan-Minecraft/SleepingOverhaul2/"
 [[dependencies.sleepingoverhaul]]
 modId = "forge"
 mandatory = true
-versionRange = "[45,)"
+versionRange = "[43,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepingoverhaul]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.4,)"
+versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.sleepingoverhaul]]
 modId = "architectury"
 mandatory = true
-versionRange = "[8.2.91,)"
+versionRange = "[6.6.92,)"
 ordering = "AFTER"
 side = "BOTH"

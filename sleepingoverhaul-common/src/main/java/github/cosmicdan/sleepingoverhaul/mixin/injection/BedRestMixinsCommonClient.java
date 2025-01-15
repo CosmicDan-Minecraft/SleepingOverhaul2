@@ -52,14 +52,13 @@ abstract class BedRestMixinsCommonClientInBedChatScreen extends ChatScreen {
             if (SleepingOverhaul.serverConfig.bedRestEnabled.get()) {
                 // reduce buttonLeave width and move 5px right (used to be left but that doesn't follow tab-order)
                 buttonLeave.setWidth(100);
-                buttonLeave.setX(buttonLeave.getX() + 100 + 5);
+                buttonLeave.x = buttonLeave.x + 100 + 5;
                 // add our new "Sleep" button with same dimensions, 5px to the right of screen center
 
-                final Button sleepButton = new Button.Builder(
+                final Button sleepButton = new Button((width / 2) - 100 - 5, buttonLeave.y, 100, 20,
                         Component.translatable("gui.sleepingoverhaul.sleepButton"),
                         (Button button) -> SleepingOverhaul.clientState.onClickSleep()
-                ).bounds((width / 2) - 100 - 5, buttonLeave.getY(), 100, 20
-                ).build();
+                );
 
                 addRenderableWidget(sleepButton);
                 SleepingOverhaul.clientState.sleepButtonAssign(sleepButton);
