@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "sleepingoverhaul",
   "version": "${version}",
-  "name": "Sleeping Overhaul",
+  "name": "Sleeping Overhaul 2",
   "description": "Replaces skip-to-day on sleep with a beautiful panoramic timelapse, and more!",
   "authors": [
     "CosmicDan"
