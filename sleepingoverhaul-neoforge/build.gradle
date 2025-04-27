@@ -65,7 +65,7 @@ dependencies {
     // REI (for finding and giving mod-added stuff)
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.788"
     // Comforts for NeoForge (and SpectreLib)
-    modRuntimeOnly "curse.maven:comforts-276951:5821146"
+    modImplementation "curse.maven:comforts-276951:5821146"
     modImplementation "com.illusivesoulworks.spectrelib:spectrelib-neoforge:0.17.2+1.21"
 }
 
