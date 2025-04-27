@@ -3,6 +3,7 @@ package github.cosmicdan.sleepingoverhaul.forge.mixin.injection;
 import github.cosmicdan.sleepingoverhaul.SleepingOverhaul;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import github.cosmicdan.sleepingoverhaul.mixin.proxy.PlayerMixinProxy;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -25,9 +26,9 @@ abstract class BedRestMixinsForgeServerPlayer {
     )
     private boolean onTimeCheck(Player player, Optional<BlockPos> sleepingLocation, Operation<Boolean> original) {
         if (SleepingOverhaul.serverConfig.bedRestEnabled.get())
-            return true;
-        else
-            return original.call(player, sleepingLocation);
+            if (!((PlayerMixinProxy) player).so2_$isReallySleeping())
+                return true;
+        return original.call(player, sleepingLocation);
     }
 }
 
