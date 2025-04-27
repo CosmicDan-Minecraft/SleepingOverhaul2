@@ -3,9 +3,11 @@
   "minVersion": "0.8",
   "package": "github.cosmicdan.sleepingoverhaul.forge.mixin.injection",
   "compatibilityLevel": "JAVA_17",
+  "plugin" : "github.cosmicdan.sleepingoverhaul.forge.mixin.MixinPluginNeoforgeModCompat",
   "mixins": [
     "BedRestMixinsForgeServerPlayer",
-    "BedRestMixinsForgePlayer"
+    "BedRestMixinsForgePlayer",
+    "BedRestMixinsForgeComfortsModBaseComfortsBlock"
   ],
   "client": [
 
