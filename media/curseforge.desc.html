@@ -224,4 +224,128 @@ You will probably want to keep this enabled because of the buttons we add to the
 <br/>
 <br/>
 <br/>
+<h2>⏱️ About</h2>
+<p>A simple, very-compatible mod to extend the day and/or night length in Minecraft. Unlike some other similar mods, it works by internally switching the doDaylightCycle rule on/off which should be more compatible with mods such as TerrafirmaCraft.</p><br/>
+<br/>
+<h5>💡 <em>1.2.0 is finally released which fixes the desync (judder/stutter), has ports for more MC versions, and adds support for variable day/night length ratio based on Calendar in TerraFirmaCraft (thanks to alekiponi for working on this). Maybe support for Serene Seasons next...?</em></h5>
+<br/>
+<h2>📜 Changelogs (Update history)</h2>
+<br/>
+<div class="spoiler"><p>
+<h5>1.2.1</h5>
+ - Fix regression: time extension for when day and night multipliers are different (oops again, sorry xD) - thanks to sl-einert for reporting.<br/>
+<br/>
+<h5>1.2.0</h5>
+ - Fixed the desync (judder or stutter) of time. This was caused by the incorrect assumption that Minecraft would synchronize with clients.<br/>
+ - Added feature to automatically adjust day/night length depending on the calendar/season (time of year) for mods. Currently only supports TerraFirmaCraft calendar, will likely add Serene Seasons support later. Thanks to alekiponi for working on this feature.<br/>
+ - [Forge] Config is moved to common file under the normal config folder instead of being per-world, and is now the same for all worlds. This was required for desync fix.<br/>
+ - Changed default multipliers to 2.0x since that seems most common<br/>
+<br/>
+<h5>1.1.1</h5>
+ - Fix time extension for when day and night multipliers are different (oops). Thanks to Sub2I1 for reporting!<br/>
+<br/>
+<h5>1.1.0</h5>
+ - Add "delayTimeCycleUntilFirstJoin" config option<br/>
+ - Add "disableTimeCycleWhenServerEmpty" config option<br/>
+ - Improve TFC compatibility (prevent log spam about Calendar stuff)<br/>
+ - [Fabric] Add dependency on Forge Config API Port in metadata<br/>
+<br/>
+<h5>1.0.0</h5>
+ - Initial release<br/>
+</p></div><br/>
+<br/>
+<br/>
+<br/>
+<h2>⭐ Highlights</h2>
+ - Works with TFC (TerraFirmaCraft) and probably all other mods (please report if not);<br/>
+ - NEW: Supports variable day/night ratio based on the season or time of year used by other mods. Currently supported mods: TerraFirmaCraft... that's all for now. Serene Seasons next perhaps?<br/>
+ - Multiply the day and night length separately;<br/>
+ - Can use arbitrary fractions, e.g. 1.5 or 50.25;<br/>
+ - Required on both Server and Client side (to prevent judder/desync);<br/>
+<br/>
+<br/>
+<br/>
+<h2>🏷️ Usage & Config</h2>
+<p>After installing the mod, simply start Minecraft to let the config generate. Jump into any world if you're happy with the default config of 2x for both day and night, you will see something like this in the log:</p>
+<p><pre>Using a multiplier of x2.0 for Day time
+    - Phase starts at 0 and will advance daylight cycle by 1 ticks over 2 game ticks on average.
+Using a multiplier of x2.0 for Night time
+    - Phase starts at 13000 and will advance daylight cycle by 1 ticks over 2 game ticks on average.
+</pre></p>
+<p>Refer to the config details below for complete usage.</p>
+<h3><em><strong>simpledaylengthextender-common.toml:</strong></em></h3>
+<div class="spoiler"><p>
+<strong>[general]</strong><br/>
+<br/><strong>dayLengthMultiplier:</strong><br/>
+ - Multiply the day length by this number. Fractions are supported, but must be above 1.0 (cannot shorten).<br/>
+ - Default is 2.0, range is 1.0 to 100.0<br/>
+<br/><strong>delayTimeCycleUntilFirstJoin</strong><br/>
+ - If true (default), the daylight cycle will not start until the first player joins the world. Handy for multiplayer and/or heavy modpacks.<br/>
+<br/><strong>dayStartInTicks:</strong><br/>
+ - Start time in ticks to use the day multiplier.<br/>
+ - Default value of 0 represents a standard Minecraft day start of 06:00. Must be less than nightStartInTicks.<br/>
+<br/><strong>disableTimeCycleWhenServerEmpty:</strong><br/>
+ - If true (NOT default), doDaylightCycle will be forced to false when the server/world is empty. Might be useful for multiplayer.<br/>
+<br/><strong>nightLengthMultiplier:</strong><br/>
+ - Multiply the night length by this number. Fractions supported, but must be above 1.0 (cannot shorten).<br/>
+<br/><strong>nightStartInTicks:</strong><br/>
+ - Start time in ticks to use the night multiplier. <br/>
+ - Default value of 13000 represents a standard Minecraft night start of 19:00.<br/>
+<br/><strong>autoCalendarAdjustments:</strong><br/>
+ - If true (default), some mod-added calendars/seasons will dynamically adjust day/night ratio.<br/>
+ - Note that day/night length will effectively be 1.5x more than the multipliers dictate for math reasons. For example if the multipliers are set to 2.0x then the day length could be about x2.91 and night length about x1.59 depending on time of year. Keeping showDetailsToLog enabled will let you check final multipliers.<br/>
+ - Also note that if the night start time is configured with the default 13000 it will be corrected to 12000 so that the day and night length difference makes sense.<br/>
+ - Currently supported mods: TerraFirmaCraft, nothing else yet (please share your requests back to me - I will very likely add Serene Seasons support)<br/>
+<br/><strong>showDetailsToLog:</strong><br/>
+ - If true (default), details of day/night length will be logged to console. Setting to false might be useful to reduce log spam, especially if autoCalendarAdjustments are in effect since it would make semi-regular log entries whenever calendar adjustments occur throughout the year/seasons.<br/>
+</p></div>
+<br/>
+<br/>
+<br/>
+<h2>✔️ Compatibility and Known Issues</h2>
+<h4>TerraFirmaCraft</h4>
+ - Works 100%. Note that this mods "disableTimeCycleWhenServerEmpty" setting will be auto-set to true if TFC's time stop setting is also true.<br/>
+<br/>
+<br/>
+<br/>
+Please report any and all issues not mentioned so I can improve the mod :D</p>
+<br/>
+<br/>
+<br/>
+<h2>🛎️ Support</h2>
+<br/>
+<p>Hopefully, the mod is simple enough to use, but you are encouraged to:</p>
+<ul>
+<li>Report any bugs you find;</li>
+<li>Report any incompatibilities with other mods;</li>
+<li>Request any features you want to see</li>
+</ul>
+<p>...so I can keep improving the mod 😊 be sure to mention your loader (e.g. Forge, Fabric) and Minecraft version too!</p>
+<br/>
+<br/>
+<br/>
+<h2>⁉️ FAQ / Troubleshooting</h2>
+<br/>
+<p><strong>Q. <em>Can I use this in my modpack?</em></strong></p>
+<p>A. Of course! As long as you consider reporting any mod compatibility issues, and feature/config requests too 😁</p>
+<br/>
+<p><strong>Q. <em>Does this mod cause lag, or cause extra network traffic in multiplayer?</em></strong></p>
+<p>A. Nope! Because the mod is required on both client and server-side, the gamerule is changed on both sides using the same deterministic algorithm. As usual, make sure client and server have identical config though otherwise the client will have strange rubber-banding.</p>
+<br/>
+<p><strong>Q. <em>I have another question...</em></strong></p>
+<p>A. ...ask away in the comments :)</em></p>
+<br/>
+<br/>
+<br/>
+<h2>🕹️ CosmicDan's Mods</h2>
+<a title="Sleeping Overhaul 2 CurseForge" href="https://www.curseforge.com/minecraft/mc-mods/sleepingoverhaul2">Sleeping Overhaul 2</a><br/>
+Replaces skip-to-day on sleep with a time lapse, and more!<br/><br/>
+<a title="Simple Day Length Extender on CurseForge" href="https://www.curseforge.com/minecraft/mc-mods/simpledaylengthextender">Simple Day Length Extender</a><br/>
+A simple, highly-compatible mod to extend the length of day and/or night.<br/><br/>
+<a title="Temperature Bands on CurseForge" href="https://www.curseforge.com/minecraft/mc-mods/temperaturebands">Temperature Bands</a><br/>
+Modifies world generation to place biomes into repeating temperature bands. Compatible with most worldgen mods.
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
