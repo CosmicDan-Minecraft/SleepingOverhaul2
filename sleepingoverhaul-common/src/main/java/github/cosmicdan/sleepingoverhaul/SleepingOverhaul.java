@@ -11,7 +11,6 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.utils.Env;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -48,6 +47,7 @@ public class SleepingOverhaul {
             clientState = new ClientState();
         } else // dummy client state for dedicated server
             clientState = new ClientStateDummy();
+
 
 
         EntityEvent.LIVING_HURT.register(this::onLivingHurt);

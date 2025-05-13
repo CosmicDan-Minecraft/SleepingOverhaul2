@@ -1,12 +1,23 @@
 package github.cosmicdan.sleepingoverhaul.server;
 
+import dev.architectury.networking.NetworkManager;
+import dev.architectury.networking.NetworkManager.Side;
 import github.cosmicdan.sleepingoverhaul.IClientState;
+import github.cosmicdan.sleepingoverhaul.networking.ReallySleepingBouncePacket;
+import github.cosmicdan.sleepingoverhaul.networking.TimelapseChangePacket;
 import net.minecraft.world.entity.player.Player;
 
 /**
  * @author Daniel 'CosmicDan' Connolly
  */
 public class ClientStateDummy implements IClientState {
+
+    public ClientStateDummy() {
+        NetworkManager.registerReceiver(Side.S2C, TimelapseChangePacket.TYPE, TimelapseChangePacket.STREAM_CODEC, this::noOp);
+        NetworkManager.registerReceiver(Side.S2C, ReallySleepingBouncePacket.TYPE, ReallySleepingBouncePacket.STREAM_CODEC, this::noOp);
+    }
+
+    private void noOp(Object packet, NetworkManager.PacketContext packetContext) {}
 
     @Override
     public boolean isSleepButtonActive() {
